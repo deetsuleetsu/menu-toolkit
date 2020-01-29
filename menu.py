@@ -1,4 +1,5 @@
 import os
+import ctypes, sys
 import subprocess
 import platform
 from cpuinfo import get_cpu_info
@@ -65,6 +66,12 @@ def modelcheck():
             #mainMenu()
         #else:
             #break
+
+def is_admin():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except:
+        False
 
 def mainMenu():
     datefunc()
@@ -247,9 +254,23 @@ def mainMenu():
             os.system('ipconfig /flushdns')
 
         if selection_menu4 == 2:
-            os.system('sfc /scannow')
-            #subprocess.call(['runas', '/user:Administrator', 'sfc /scannow'])
-            print("Executing SFC.....")
+            if is_admin():
+                os.system('cmd /k "sfc /scannow"')
+                while True:
+                    try:
+                        selection_menu421 = int(input("Press enter to exit"))
+                    except ValueError:
+                        exit(0)
+                    else:
+                        break
+            else:
+                ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
+                while True:
+                    try:
+                        selection_menu422 = int(input("Press enter to go back"))
+                    except ValueError:
+                        cls()
+                        mainMenu()
 
         if selection_menu4 == 0:
             cls()
@@ -260,7 +281,7 @@ def mainMenu():
 
     if selection_menu == 5:
         cls()
-        print("A Small application made to work as an easier way to find information about")
+        print("a Small application made to work as an easier way to find information about")
         print("your computer and apply tweaks. Currently in alpha, new features are being implemented")
         print("as time goes on.")
 
