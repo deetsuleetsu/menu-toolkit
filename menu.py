@@ -74,8 +74,7 @@ def mainMenu():
     print("2 - System Tweak Tools")
     print("3 - System Management")
     print("4 - System Tweaks")
-    print("5 - Installable software")
-    print("6 - About\n")
+    print("5 - About\n")
     selection_menu = int(input("Enter choice: "))
 
     if selection_menu == 1:
@@ -183,7 +182,6 @@ def mainMenu():
         print("System Tweak Tools")
         print("------------------")
         print("1 - Registry editor")
-        print("2 - MS Toolkit\n")
         while True:
             try:
                 selection_menu2 = int(input("Enter choice: "))
@@ -198,17 +196,6 @@ def mainMenu():
             while True:
                 try:
                     selection_menu21 = int(input("\nPress enter to go back."))
-                except ValueError:
-                    cls()
-                    mainMenu()
-                else:
-                    break
-
-        if selection_menu2 == 2:
-            subprocess.call(["mstoolkit.exe"], shell=True)
-            while True:
-                try:
-                    selection_menu22 = int(input("\nPress enter to go back."))
                 except ValueError:
                     cls()
                     mainMenu()
@@ -273,34 +260,12 @@ def mainMenu():
 
     if selection_menu == 5:
         cls()
-        print("Installable software")
-        print("--------------------")
-        print("IOBit Driver Booster 1 (U14.5.2018)")
-        print("TeamViewer 2 (U14.5.2018)")
-        print("Help 0\n")
-        selection_menu5 = int(input("Enter choice:"))
-        if selection_menu5 == 1:
-            subprocess.call(["dbs.exe"], shell=True)
-
-        if selection_menu5 == 2:
-            subprocess.call(["tv.exe"], shell=True)
-
-        if selection_menu5 == 0:
-            cls()
-            print("Installable Software Help")
-            print("-------------------------\n")
-            print("IOBit Driver Booster\nHandy tool to update all system drivers, might\nrequire activation to fully function\n")
-            print("Teamviewer\nApplication that makes remote PC connections\nand controlling easy and simple\n")
-            print("Note that if an installer does not start after install command,\ninstallation has failed. This application doesn't install the\napps, only has the packages for the user to install.\n")
-            print("UXX.X.XXXX is the date, when this application was downloaded.")
-
-    if selection_menu == 6:
-        cls()
         print("A Small application made to work as an easier way to find information about")
         print("your computer and apply tweaks. Currently in alpha, new features are being implemented")
         print("as time goes on.")
 
-    if selection_menu == 7:
+    #Prototype function
+    if selection_menu == 6:
         cls()
         print("Type something to search.")
         intchoose.searchvaluefunc()
