@@ -1,4 +1,5 @@
 import os
+import ctypes, sys
 import subprocess
 import platform
 from cpuinfo import get_cpu_info
@@ -10,6 +11,7 @@ import intchoose
 from datemodule import datefunc
 import menusystem
 import psutil
+from menu_toolkit import main
 
 cls = lambda: print('\n' * 100)
 ip_address = socket.gethostbyname(socket.gethostname())
@@ -30,6 +32,7 @@ def cpuinfo():
     print(get_cpu_info()["brand"])
     print(psutil.cpu_count(logical=False), "Cores")
     print(psutil.cpu_count(logical=True), "Threads\n")
+    print("System architecture:", platform.machine(), "\n")
 
 def modelcheck():
     if "3840QM" in cbrand:
@@ -65,15 +68,22 @@ def modelcheck():
         #else:
             #break
 
-def mainMenu():
+def is_admin():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except:
+        False
+
+def main():
+    menu()
     datefunc()
-    print("\nHandy-Dandy Toolkit v0.2")
+    print("\nHandy-Dandy Toolkit v0.3")
     print("--------------------------")
     print("1 - System information")
     print("2 - System Tweak Tools")
     print("3 - System Management")
     print("4 - System Tweaks")
-    print("5 - Installable software\n")
+    print("5 - About\n")
     selection_menu = int(input("Enter choice: "))
 
     if selection_menu == 1:
@@ -102,10 +112,8 @@ def mainMenu():
             cls()
             print("Available System Info")
             print("---------------------")
-            print("CPU:")
-            cpuinfo()
-            print("Architecture:")
-            print(platform.machine())
+            print("1 - CPU")
+            print("2 - Architecture")
             print("3 - OS Specific version")
             print("4 - RAM")
             print("5 - IP")
@@ -183,7 +191,6 @@ def mainMenu():
         print("System Tweak Tools")
         print("------------------")
         print("1 - Registry editor")
-        print("2 - MS Toolkit\n")
         while True:
             try:
                 selection_menu2 = int(input("Enter choice: "))
@@ -198,17 +205,6 @@ def mainMenu():
             while True:
                 try:
                     selection_menu21 = int(input("\nPress enter to go back."))
-                except ValueError:
-                    cls()
-                    mainMenu()
-                else:
-                    break
-
-        if selection_menu2 == 2:
-            subprocess.call(["mstoolkit.exe"], shell=True)
-            while True:
-                try:
-                    selection_menu22 = int(input("\nPress enter to go back."))
                 except ValueError:
                     cls()
                     mainMenu()
@@ -238,7 +234,7 @@ def mainMenu():
             print("System Management Tools Help")
             print("----------------------------\n")
             print("Device manager")
-            print("Well, who doesn't know Device Manager? Ugh.. anyways,\nyou can manage your hardware settings here")
+            print("Windows device manager")
             while True:
                 try:
                     selection_menu30 = int(input("\nPress enter to go back, or don't, it'll go anyways"))
@@ -250,50 +246,43 @@ def mainMenu():
 
     if selection_menu == 4:
         cls()
-        print("System Tweaks")
+        print("System Tweaks & Tools")
         print("------------")
-        print("DNS Flush 1")
-        print("SFC 2")
+        print("1 - DNS Flush")
+        print("2 - SFC")
         print("Help 0\n")
         selection_menu4 = int(input("Enter choice:"))
         if selection_menu4 == 1:
             os.system('ipconfig /flushdns')
 
         if selection_menu4 == 2:
-            os.system('sfc /scannow')
-            #subprocess.call(['runas', '/user:Administrator', 'sfc /scannow'])
-            print("Executing SFC.....")
+            if is_admin():
+                os.system('cmd /k "sfc /scannow"')
+                while True:
+                    try:
+                        selection_menu421 = int(input("Press enter to go back"))
+                    except ValueError:
+                        cls()
+                        mainMenu()
+                    else:
+                        break
+            else:
+                ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
 
         if selection_menu4 == 0:
             cls()
-            print("System Tweak Help")
+            print("System Tweaks & Tools Help Section")
             print("-----------------\n")
-            print("DNS Flush might help resolve network problems by reseting the\ndns address.\n")
-            print("SFC aka System File Checker is a helpful tool to find and fix\nfound filesystem problems and corruptions. Corrupted system files\nmight make your PC crash more often and can create instability.\n")
+            print("DNS Flush might help resolve network problems by resetting the\ndns cache.\n")
+            print("SFC aka System File Checker is a helpful tool for finding and fixing\npossible system file corruptions. Corrupted system files\ncan make your PC unstable and cause issues.\n")
 
     if selection_menu == 5:
         cls()
-        print("Installable software")
-        print("--------------------")
-        print("IOBit Driver Booster 1 (U14.5.2018)")
-        print("TeamViewer 2 (U14.5.2018)")
-        print("Help 0\n")
-        selection_menu5 = int(input("Enter choice:"))
-        if selection_menu5 == 1:
-            subprocess.call(["dbs.exe"], shell=True)
+        print("a Small application made to work as an easier way to find information about")
+        print("your computer and apply tweaks. Currently in alpha, new features are being implemented")
+        print("as time goes on.")
 
-        if selection_menu5 == 2:
-            subprocess.call(["tv.exe"], shell=True)
-
-        if selection_menu5 == 0:
-            cls()
-            print("Installable Software Help")
-            print("-------------------------\n")
-            print("IOBit Driver Booster\nHandy tool to update all system drivers, might\nrequire activation to fully function\n")
-            print("Teamviewer\nApplication that makes remote PC connections\nand controlling easy and simple\n")
-            print("Note that if an installer does not start after install command,\ninstallation has failed. This application doesn't install the\napps, only has the packages for the user to install.\n")
-            print("UXX.X.XXXX is the date, when this application was downloaded.")
-
+    #Prototype function
     if selection_menu == 6:
         cls()
         print("Type something to search.")
