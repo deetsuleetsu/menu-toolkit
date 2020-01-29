@@ -1,4 +1,10 @@
-import pywin32
-import wmi
 
-select from Win32_PnPEntity where ConfigManagerErrorCode != 0
+#import win32com.shell.shell as shell
+#commands = 'echo hi'
+#shell.ShellExecuteEx(lpVerb='runas', lpFile='cmd.exe', lpParameters='/c ' +commands)
+
+import os
+
+
+
+os.system('cmd /k "sfc"')
