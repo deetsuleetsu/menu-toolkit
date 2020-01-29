@@ -244,10 +244,10 @@ def mainMenu():
 
     if selection_menu == 4:
         cls()
-        print("System Tweaks")
+        print("System Tweaks & Tools")
         print("------------")
-        print("DNS Flush 1")
-        print("SFC 2")
+        print("1 - DNS Flush")
+        print("2 - SFC")
         print("Help 0\n")
         selection_menu4 = int(input("Enter choice:"))
         if selection_menu4 == 1:
@@ -258,26 +258,21 @@ def mainMenu():
                 os.system('cmd /k "sfc /scannow"')
                 while True:
                     try:
-                        selection_menu421 = int(input("Press enter to exit"))
+                        selection_menu421 = int(input("Press enter to go back"))
                     except ValueError:
-                        exit(0)
+                        cls()
+                        mainMenu()
                     else:
                         break
             else:
                 ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
-                while True:
-                    try:
-                        selection_menu422 = int(input("Press enter to go back"))
-                    except ValueError:
-                        cls()
-                        mainMenu()
 
         if selection_menu4 == 0:
             cls()
-            print("System Tweak Help")
+            print("System Tweaks & Tools Help Section")
             print("-----------------\n")
-            print("DNS Flush might help resolve network problems by resetting the\ndns address.\n")
-            print("SFC aka System File Checker is a helpful tool to find and fix\nfound filesystem problems and corruptions. Corrupted system files\nmight make your PC crash more often and can create instability.\n")
+            print("DNS Flush might help resolve network problems by resetting the\ndns cache.\n")
+            print("SFC aka System File Checker is a helpful tool for finding and fixing\npossible system file corruptions. Corrupted system files\ncan make your PC unstable and cause issues.\n")
 
     if selection_menu == 5:
         cls()
